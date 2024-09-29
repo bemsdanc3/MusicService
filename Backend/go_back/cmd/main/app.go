@@ -10,10 +10,22 @@ import (
 )
 
 const (
-	createUser = "/users/create"
-	allUsers   = "/users"
-	userById   = "/users/:id"
-	allTracks  = "/tracks"
+	allUsers          = "/users"
+	userById          = "/users/:id"
+	allArtists        = "/artists"
+	artistById        = "/artists/:id"
+	allAlbums         = "albums"
+	albumsById        = "/albums/:id"
+	allGenres         = "/genres"
+	genresById        = "/genres/:id"
+	allTracks         = "/tracks"
+	tracksById        = "/tracks/:id"
+	allPlaylists      = "/playlists"
+	playlistById      = "/playlists/:id"
+	addTrackById      = "/playlists/:id/tracks"
+	deleteTrackById   = "/playlists/:id/tracks/:id"
+	allListeningStory = "/listening_history"
+	getListeningStory = "/listening_history/user/:id"
 )
 
 func main() {
@@ -32,7 +44,12 @@ func main() {
 
 	r := gin.Default()
 
-	r.POST(createUser, handlers.CreateUserHandler(db))
+	r.POST(allUsers, handlers.CreateUserHandler(db))
+
+	r.GET(allUsers, handlers.GetAllUsersHandler(db))
+	r.GET(userById, handlers.GetUserByIdHandler(db))
+
+	r.PUT(userById, handlers.UpdateUserHandler(db))
 
 	r.Run(":5252")
 }
