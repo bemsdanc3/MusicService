@@ -1,4 +1,4 @@
-package db
+package contodb
 
 import (
 	"database/sql"

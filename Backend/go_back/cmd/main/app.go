@@ -5,7 +5,15 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/joho/godotenv"
 	"log"
-	db2 "training/pkg/db"
+	"training/pkg/handlers"
+	"training/src/contodb"
+)
+
+const (
+	createUser = "/users/create"
+	allUsers   = "/users"
+	userById   = "/users/:id"
+	allTracks  = "/tracks"
 )
 
 func main() {
@@ -14,7 +22,7 @@ func main() {
 		log.Fatalf("Ошибка при загрузке .env файла: %v", err)
 	}
 
-	db, err := db2.ConnectToDb()
+	db, err := contodb.ConnectToDb()
 	if err != nil {
 		if err != nil {
 			log.Fatalf("Ошибка при подключении к базе данных: %v", err)
@@ -24,5 +32,7 @@ func main() {
 
 	r := gin.Default()
 
-	r.Run(":1337")
+	r.POST(createUser, handlers.CreateUserHandler(db))
+
+	r.Run(":5252")
 }
