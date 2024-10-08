@@ -10,7 +10,7 @@ import (
 )
 
 func Connect() (*sql.DB, error) {
-	err := godotenv.Load("configs/.env")
+	err := godotenv.Load("backend/configs/.env")
 	if err != nil {
 		log.Fatalf("Error loading .env file")
 	}

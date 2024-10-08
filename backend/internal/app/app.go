@@ -1,4 +1,4 @@
-package main
+package app
 
 import (
 	"github.com/gin-gonic/gin"
@@ -8,8 +8,14 @@ import (
 	"musicService/pkg/db"
 )
 
-func main() {
-	r := gin.Default()
+type App struct {
+	Router *gin.Engine
+}
+
+func New() *App {
+	app := &App{
+		Router: gin.Default(),
+	}
 
 	// Подключение к базе данных
 	dbConn, err := db.Connect()
@@ -21,8 +27,8 @@ func main() {
 	userRepo := repository.NewUserRepository(dbConn)
 	userUsecase := usecases.NewUserUsecase(userRepo)
 
-	// Создаем обработчик для пользователей
-	http.NewUserHandler(r, userUsecase)
+	// Создаем обработчики
+	http.NewUserHandler(app.Router, userUsecase)
 
-	r.Run(":5002")
+	return app
 }
